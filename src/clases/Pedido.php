@@ -1,17 +1,19 @@
 <?php
+
     class Pedido{
         public $id;
         public $fecha;
         public $total;
         public $pagado;
         public $estado;
+        public $listaDetallesProductos;
 
-        public function __construct($id, $fecha, $total, $pagado, $estado){
+        public function __construct($id, $fecha){
             $this->id = $id;
-            $this->fecha = $fecha;
-            $this->total = $total;
-            $this->pagado = $pagado;
-            $this->estado = $estado;
+            $this->fecha = $fecha;            
+            $this->pagado = 0;
+            $this->estado = '';
+            $this->listaDetallesProductos = Array();
         }
 
         public function getId(){
@@ -31,7 +33,12 @@
         }
 
         public function getTotal(){
-            return $this->total;
+            $total = 0;
+            foreach ($this->listaDetallesProductos as &$dtProducto){
+                echo "<br>".$dtProducto->getSubTotal();               
+                $total = $total + $dtProducto->getSubTotal();
+            }
+            return $total;   
         }
 
         public function setTotal($total){
@@ -64,5 +71,37 @@
 
         public function consultarPedido(){
             return "{$this->id} {$this->fecha} {$this->total} {$this->pagado} {$this->estado}";
+        }
+
+        public function agregarDetallePedido($detallePedido){            
+            array_push($this->listaDetallesProductos, $detallePedido);
+        }
+
+        public function getListaDetallesProductos(){
+            echo '<table>';
+            echo'<tr>';
+            echo '<th>Producto</th>';
+            echo '<th>Cantidad</th>';
+            echo '<th>precio</th>';
+            echo'</tr>';
+            foreach ($this->listaDetallesProductos as &$dtProducto){  
+                echo'<tr>';
+                echo"<td>" .$dtProducto->item->nombre."</td>";
+                echo"<td>" .$dtProducto->cantidad."</td>";
+                echo"<td>" .$dtProducto->item->precio. "</td>";
+                echo'</tr>';
+            }
+            echo '</table>';
+        }
+
+        public function pagarPedido($debito){
+            $total = $this->getTotal();
+            if( ($total <= $debito) && ($this->getPagado() == 0) ){
+                $this->setPagado(1);
+                return $debito - $total;
+            } else {
+                $this->setPagado(0);
+                return "DEBITO INSUFICIENTE";
+            }
         }
     }

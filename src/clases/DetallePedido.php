@@ -1,4 +1,5 @@
 <?php
+
     class DetallePedido{
         public $item;
         public $cantidad;
@@ -6,10 +7,10 @@
         public $precio;
         public $costoEnvio;
 
-        public function __construct($items, $cantidad, $subTotal, $costoEnvio){
-            $this->items = $items;
-            $this->cantidad = $cantidad;
-            $this->subTotal = $subTotal;
+        public function __construct($item, $cantidad, $costoEnvio){
+            $this->item = $item;
+            $this->cantidad = $cantidad;                        
+            $this->subTotal = $this->cantidad * $this->precio;
             $this->costoEnvio = $costoEnvio;
         }
 
@@ -30,11 +31,33 @@
         }
 
         public function getSubTotal(){
-            return $this->subTotal;
+            $producto = $this->item;
+            $cantidad = $this->cantidad;
+            if( $producto->tipo = "peso" ){
+                return $producto->peso * $producto->precio;
+            } else if ( $producto->tipo = "descuento" ){                
+                if( $cantidad >= 3 && $cantidad < 6  ){
+                    return ($cantidad * $producto->precio) - ($cantidad * $producto->precio)*0.2;
+                } else if( $cantidad >= 6 && $cantidad < 9  ){
+                    return ($cantidad * $producto->precio) - ($cantidad * $producto->precio)*0.4;
+                } else if( $cantidad >= 9 ){
+                    return ($cantidad * $producto->precio) - ($cantidad * $producto->precio)*0.5;
+                }                
+            } else {
+                return $cantidad * $producto->precio;
+            }            
         }
 
         public function setSubTotal($subTotal){
             $this->subTotal = $subTotal;
+        }
+
+        public function getPrecio(){
+            return $this->precio;
+        }
+
+        public function setPrecio($precio){
+            $this->precio = $precio;
         }
 
         public function getCostoEnvio(){
