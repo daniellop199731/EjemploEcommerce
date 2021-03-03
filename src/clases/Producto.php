@@ -1,21 +1,20 @@
 <?php
     class Producto{
         public $id;
+        public $nombre;
         public $sku;
         public $precio;
         public $peso;
         public $tipo;
-        public $fotoProducto; #De tipo FotoProducto
-        public $categoria; #De tipo Categoria
 
-        public function __construct($id,$sku,$precio,$peso,$tipo, $fotoProducto, $categoria){
-            $this->id = $id;
-            $this->sku = $sku;
-            $this->precio = $precio;
-            $this->peso = $peso;
-            $this->tipo = $tipo;
-            $this->fotoProducto = $fotoProducto;
-            $this->categoria = $categoria;
+
+        public function __construct($id, $nombre, $sku, $precio, $peso, $tipo){
+            $this->id           = $id;
+            $this->nombre       = $nombre;
+            $this->sku          = $sku;
+            $this->precio       = $this->calcularPrecio($precio, $sku, $peso);
+            $this->peso         = $peso;
+            $this->tipo         = $tipo;
         }
 
         public function getId(){
@@ -57,21 +56,23 @@
         public function setTipo($tipo){
             return $this->tipo = $tipo;
         }
-
-        public function getFotoProducto(){
-            return $this->fotoProducto;
+        
+        public function calcularPrecio($precio, $sku, $peso){
+            $sku = substr($sku, 0, 2);
+            switch ($sku):
+                case $sku == "EA":
+                    return ($precio);
+                    break;
+                case $sku == "WE":
+                    $precio_calculado = (1000*$precio)/$peso;
+                    return ($precio_calculado);
+                    break;
+                case $sku == "SP":
+                    return ($precio);
+                    break;
+                default:
+                    return ($precio);
+            endswitch;
         }
-
-        public function setFotoProducto($fotoProducto){
-            $this->fotoProducto = $fotoProducto;
-        }
-
-        public function getCategoria(){
-            return $this->categoria;
-        }
-
-        public function setCategoria($categoria){
-            $this->categoria = $categoria;
-        }        
     }
 ?>
