@@ -6,11 +6,10 @@
         public $precio;
         public $costoEnvio;
 
-        public function __construct($item, $cantidad, $subTotal, $precio, $costoEnvio){
-            $this->item = $item;
+        public function __construct($items, $cantidad, $subTotal, $costoEnvio){
+            $this->items = $items;
             $this->cantidad = $cantidad;
             $this->subTotal = $subTotal;
-            $this->precio = $precio;
             $this->costoEnvio = $costoEnvio;
         }
 
@@ -36,14 +35,6 @@
 
         public function setSubTotal($subTotal){
             $this->subTotal = $subTotal;
-        }
-
-        public function getPrecio(){
-            return $this->precio;
-        }
-
-        public function setPrecio($precio){
-            $this->precio = $precio;
         }
 
         public function getCostoEnvio(){
