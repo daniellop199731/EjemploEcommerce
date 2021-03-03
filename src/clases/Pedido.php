@@ -34,10 +34,11 @@
 
         public function getTotal(){
             $total = 0;
-            foreach ($this->listaDetallesProductos as &$dtProducto){
-                echo "<br>".$dtProducto->getSubTotal();               
+            foreach ($this->listaDetallesProductos as &$dtProducto){                            
                 $total = $total + $dtProducto->getSubTotal();
             }
+            echo "<br>";
+            echo "<br>";
             return $total;   
         }
 

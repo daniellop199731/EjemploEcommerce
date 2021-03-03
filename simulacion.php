@@ -18,6 +18,8 @@ $pedido->agregarDetallePedido($detallePedido3);
 
 $pedido->getListaDetallesProductos();
 
+echo "<br>";
+echo "Total a pagar: ";
 echo $pedido->getTotal();
 
 
